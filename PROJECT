@@ -1,3 +1,7 @@
 version: "2"
 domain: kubebuilder.kamiazya.tech
 repo: github.com/kamiazya/kubebuilder-playground
+resources:
+- group: webapp
+  version: v1
+  kind: Guestbook
