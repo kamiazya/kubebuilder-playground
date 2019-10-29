@@ -35,6 +35,27 @@ $ kubectl apply -f config/samples/webapp_v1_guestbook.yaml
 guestbook.webapp.kubebuilder.kamiazya.tech/guestbook-sample created
 ```
 
+### Start Development
+
+```bash
+$ make run
+${GOPATH}/bin/controller-gen object:headerFile=./hack/boilerplate.go.txt paths="./..."
+go fmt ./...
+go vet ./...
+${GOPATH}/bin//controller-gen "crd:trivialVersions=true" rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
+go run ./main.go
+2019-10-29T20:57:32.772+0900    INFO    controller-runtime.metrics      metrics server is starting to listen    {"addr": ":8080"}
+2019-10-29T20:57:32.772+0900    INFO    controller-runtime.controller   Starting EventSource    {"controller": "guestbook", "source": "kind source: /, Kind="}
+2019-10-29T20:57:32.772+0900    INFO    setup   starting manager
+2019-10-29T20:57:32.772+0900    INFO    controller-runtime.manager      starting metrics server {"path": "/metrics"}
+2019-10-29T20:57:32.874+0900    INFO    controller-runtime.controller   Starting Controller     {"controller": "guestbook"}
+2019-10-29T20:57:32.974+0900    INFO    controller-runtime.controller   Starting workers        {"controller": "guestbook", "worker count": 1}
+2019-10-29T20:58:55.574+0900    DEBUG   controller-runtime.controller   Successfully Reconciled {"controller": "guestbook", "request": "default/guestbook-sample"}
+...
+```
+
+`Ctrl + C` to stop.
+
 ### Get and Describe Resource
 
 ```bash
