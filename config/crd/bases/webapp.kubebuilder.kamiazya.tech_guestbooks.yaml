@@ -31,9 +31,53 @@ spec:
           type: object
         spec:
           description: GuestbookSpec defines the desired state of Guestbook
+          properties:
+            alias:
+              enum:
+              - Phone,Address,Name
+              type: string
+            configMapName:
+              description: Name of the ConfigMap for GuestbookSpec's configuration
+              maxLength: 15
+              minLength: 1
+              type: string
+            size:
+              description: Quantity of instances
+              format: int32
+              maximum: 10
+              minimum: 1
+              type: integer
+          required:
+          - configMapName
+          - size
           type: object
         status:
           description: GuestbookStatus defines the observed state of Guestbook
+          properties:
+            guestbookStatus:
+              description: 'GuestbookStatus is the set of Guestbook node specific
+                statuses: Active or Standby'
+              properties:
+                active:
+                  description: PodName of the active Guestbook node.
+                  type: string
+                standby:
+                  description: PodNames of the standby Guestbook nodes.
+                  items:
+                    type: string
+                  type: array
+              required:
+              - active
+              - standby
+              type: object
+            nodes:
+              description: Status of Guestbook Nodes
+              items:
+                type: string
+              type: array
+          required:
+          - guestbookStatus
+          - nodes
           type: object
       type: object
   version: v1
